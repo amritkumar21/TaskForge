@@ -1,7 +1,26 @@
 #include <iostream>
 
+#include "Task.h"
+
 int main()
 {
-    std::cout << "Welcome to TaskForge!" << std::endl;
+    taskforge::Task task(
+        1,
+        "Send Email",
+        taskforge::TaskPriority::High,
+        []()
+        {
+            std::cout << "Executing callback...\n";
+        });
+
+    std::cout << "Task ID       : " << task.getId() << '\n';
+    std::cout << "Task Name     : " << task.getName() << '\n';
+
+    std::cout << "Executing Task...\n";
+
+    task.execute();
+
+    std::cout << "Execution Finished\n";
+
     return 0;
 }
