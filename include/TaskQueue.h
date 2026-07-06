@@ -1,5 +1,6 @@
 #pragma once
 
+#include <condition_variable>
 #include <cstddef>
 #include <memory>
 #include <mutex>
@@ -24,7 +25,8 @@ public:
 private:
     std::queue<std::unique_ptr<Task>> queue_;
 
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
+    std::condition_variable condition_;
 };
 
 } // namespace taskforge

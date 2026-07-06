@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(TaskForge
     src/main.cpp
     src/Task.cpp
+    src/TaskQueue.cpp
 )
 
 target_include_directories(TaskForge PRIVATE include)
