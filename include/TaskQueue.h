@@ -22,11 +22,16 @@ public:
 
     std::size_t size() const;
 
+    void shutdown();
+
 private:
     std::queue<std::unique_ptr<Task>> queue_;
 
     mutable std::mutex mutex_;
+
     std::condition_variable condition_;
+
+    bool shutdown_ {false};
 };
 
 } // namespace taskforge

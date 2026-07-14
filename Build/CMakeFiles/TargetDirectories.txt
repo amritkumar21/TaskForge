@@ -1,0 +1,3 @@
+/home/amr/Documents/TaskForge/Build/CMakeFiles/TaskForge.dir
+/home/amr/Documents/TaskForge/Build/CMakeFiles/edit_cache.dir
+/home/amr/Documents/TaskForge/Build/CMakeFiles/rebuild_cache.dir

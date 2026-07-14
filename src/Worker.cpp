@@ -6,14 +6,9 @@ namespace taskforge
 
     void Worker::start()
     {
-        running_ = true;
         thread_ = std::thread(&Worker::run, this);
     }
 
-    void Worker::stop()
-    {
-        running_=false;
-    }
 
     Worker::~Worker()
     {
@@ -25,7 +20,7 @@ namespace taskforge
 
     void Worker::run()
     {
-        while(running_)
+        while(true)
         {
             auto task = taskQueue_.pop();
 

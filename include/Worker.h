@@ -31,8 +31,6 @@ private:
     TaskQueue& taskQueue_;
 
     std::thread thread_;
-
-    std::atomic<bool> running_{false};
 };
 
 } // namespace taskforge

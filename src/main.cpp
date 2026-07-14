@@ -3,62 +3,39 @@
 
 #include "Task.h"
 #include "TaskQueue.h"
+#include "Worker.h"
+#include <chrono>
+#include <thread>
 
 int main()
 {
-    taskforge::TaskQueue queue;
+    taskforge::TaskQueue taskQueue;
+    taskforge::Worker worker(taskQueue);
 
-    std::cout << "===== Sprint 3 TaskQueue Test =====\n\n";
+    worker.start();
 
-    // Create Task 1
-    auto task1 = std::make_unique<taskforge::Task>(
-        1,
-        "Send Email",
-        taskforge::TaskPriority::High,
-        []()
-        {
-            std::cout << "Executing Task 1...\n";
-        });
+    for(int i = 1; i<=20; i++)
+    {
+        auto task = std::make_unique<taskforge::Task>
+        (
+            i,
+            "Task " + std::to_string(i),
+            taskforge::TaskPriority::Medium,
+            [i]()
+            {
+                if(i==10)
+                {
+                    throw std::runtime_error("Error in Task " + std::to_string(i));
+                }
+                std::cout<< "Executing Task " << i << std::endl;
+            }
 
-    // Create Task 2
-    auto task2 = std::make_unique<taskforge::Task>(
-        2,
-        "Generate Report",
-        taskforge::TaskPriority::Medium,
-        []()
-        {
-            std::cout << "Executing Task 2...\n";
-        });
+        );
+        taskQueue.push(std::move(task));
+    }
 
-    std::cout << "Queue Empty : "
-              << std::boolalpha
-              << queue.empty() << '\n';
+    std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    std::cout << "\nPushing Tasks...\n";
-
-    queue.push(std::move(task1));
-    queue.push(std::move(task2));
-
-    std::cout << "Queue Size  : "
-              << queue.size() << '\n';
-
-    std::cout << "Queue Empty : "
-              << queue.empty() << "\n\n";
-
-    auto task = queue.pop();
-
-    std::cout << "Popped Task\n";
-    std::cout << "Task ID     : " << task->getId() << '\n';
-    std::cout << "Task Name   : " << task->getName() << '\n';
-
-    std::cout << "\nExecuting Task...\n";
-    task->execute();
-
-    std::cout << "\nQueue Size  : "
-              << queue.size() << '\n';
-
-    std::cout << "Queue Empty : "
-              << queue.empty() << '\n';
-
-    return 0;
+    taskQueue.shutdown();
+    worker.stop();
 }
