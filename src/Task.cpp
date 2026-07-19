@@ -1,6 +1,7 @@
 #include "Task.h"
 
 #include <utility>
+#include <stdexcept>
 
 namespace taskforge
 {
@@ -40,6 +41,20 @@ TaskState Task::getState() const
 void Task::execute()
 {
     callback_();
+}
+
+std::optional<std::uint64_t> Task::getSequenceNumber() const
+{
+    return sequenceNumber_;
+}
+
+void Task::setSequenceNumber(std::uint64_t sequenceNumber)
+{
+    if (sequenceNumber_.has_value())
+    {
+      throw std::logic_error("Sequence number already assigned.");
+    }
+    sequenceNumber_ = sequenceNumber;
 }
 
 } // namespace taskforge

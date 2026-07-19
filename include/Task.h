@@ -2,13 +2,17 @@
 
 #include <functional>
 #include <string>
+#include <optional>
 
 #include "TaskState.h"
 #include "TaskPriority.h"
 #include "TaskId.h"
 
+
+
 namespace taskforge
 {
+    class Scheduler;
     class Task
     {
     public:
@@ -34,6 +38,9 @@ namespace taskforge
 
             void execute();
 
+            std::optional<std::uint64_t> getSequenceNumber() const;
+
+
         private:
                 TaskId taskId_;
 
@@ -44,6 +51,14 @@ namespace taskforge
                 TaskState state_;
                 
                 std::function<void()> callback_;
+
+                std::optional<std::uint64_t> sequenceNumber_;
+
+                void setSequenceNumber(std::uint64_t sequenceNumber);
+
+                friend class Scheduler;
+
+
     };
 
 } //namespace taskforge
