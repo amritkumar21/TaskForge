@@ -35,6 +35,8 @@ private:
     std::vector<std::unique_ptr<Worker>> workers_;
 
     bool started_{false};
+
+    std::atomic<std::uint64_t> nextSequence_{0};
 };
 
 } // namespace taskforge

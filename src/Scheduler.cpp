@@ -42,6 +42,7 @@ namespace taskforge
         {
             throw std::logic_error("Scheduler has not been started");
         }
+        task->setSequenceNumber(nextSequence_.fetch_add(1));
         taskQueue_.push(std::move(task));
     }
 
