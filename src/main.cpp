@@ -2,40 +2,38 @@
 #include <memory>
 
 #include "Task.h"
-#include "TaskQueue.h"
-#include "Worker.h"
+#include "Scheduler.h"
 #include <chrono>
 #include <thread>
 
 int main()
 {
-    taskforge::TaskQueue taskQueue;
-    taskforge::Worker worker(taskQueue);
+    taskforge::Scheduler scheduler;
 
-    worker.start();
+    scheduler.start(4);
 
-    for(int i = 1; i<=20; i++)
+    for(int i =0; i <= 20; i++)
     {
-        auto task = std::make_unique<taskforge::Task>
-        (
-            i,
-            "Task " + std::to_string(i),
-            taskforge::TaskPriority::Medium,
-            [i]()
-            {
-                if(i==10)
-                {
-                    throw std::runtime_error("Error in Task " + std::to_string(i));
-                }
-                std::cout<< "Executing Task " << i << std::endl;
-            }
+     
+        auto task =  std::make_unique<taskforge::Task>
+                     (
+                        i,
+                        "Task " + std::to_string(i),
+                        taskforge::TaskPriority::Medium,
+                        [i]()
+                        {
+                            std::cout <<" Executing Task " << i <<std::endl;
+                            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                        }
+                     );
+                       
 
-        );
-        taskQueue.push(std::move(task));
+        scheduler.submitTask(std::move(task));
+        
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    taskQueue.shutdown();
-    worker.stop();
+    std::cout << "Stopping Scheduler..." << std::endl;
+    scheduler.stop();
 }

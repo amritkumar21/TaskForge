@@ -1,12 +1,17 @@
 #pragma once
 
+#include <algorithm>
 #include <condition_variable>
 #include <cstddef>
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <vector>
+
+
 
 #include "Task.h"
+#include "TaskComparator.h"
 
 namespace taskforge
 {
@@ -25,7 +30,8 @@ public:
     void shutdown();
 
 private:
-    std::queue<std::unique_ptr<Task>> queue_;
+
+    std::vector<std::unique_ptr<Task>> queue_;
 
     mutable std::mutex mutex_;
 

@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/TaskForge.dir/src/main.cpp.o CMakeFiles/TaskForge.dir/src/Task.cpp.o CMakeFiles/TaskForge.dir/src/TaskQueue.cpp.o CMakeFiles/TaskForge.dir/src/Worker.cpp.o -o TaskForge 

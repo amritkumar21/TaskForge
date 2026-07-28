@@ -15,6 +15,8 @@ add_executable(TaskForge
     src/Task.cpp
     src/TaskQueue.cpp
     src/Worker.cpp
+    src/Scheduler.cpp
+    src/TaskComparator.cpp
 )
 
 target_include_directories(TaskForge PRIVATE include)

@@ -6,7 +6,8 @@ namespace taskforge
     {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            queue_.push(std::move(task));
+            queue_.push_back(std::move(task));
+            std::push_heap(queue_.begin(),queue_.end(), TaskComparator());
         }
         condition_.notify_one();
     }
@@ -20,8 +21,10 @@ namespace taskforge
         {
             return nullptr;
         }
-        auto task = std::move(queue_.front());
-        queue_.pop();
+        
+        std::pop_heap(queue_.begin(), queue_.end(), TaskComparator());
+        auto task = std::move(queue_.back());
+        queue_.pop_back();
         return task;
     }
 
